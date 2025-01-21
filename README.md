@@ -1,62 +1,38 @@
-# MDX Remote Example
+# MDX Remote App
 
-This example shows how a simple blog might be built using the [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) library, which allows mdx content to be loaded via [`generateStaticParams`](https://nextjs.org/docs/app/api-reference/functions/generate-static-params). The mdx content is loaded from a local folder, but it could be loaded from a database or anywhere else.
+This is a simple **Next.js** application designed to render dynamic MDX content. It utilizes **Next.js app routing**, supporting multi-segment routes (e.g., `/docs/advanced/hello-world`). The dynamic routing setup serves MDX content based on the URL, making it easy to manage content with nested folder structures and dynamic URL segments.
 
-## Deploy your own
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/mdx-remote)
+## Features
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/mdx-remote&project-name=mdx-remote&repository-name=mdx-remote)
+- **Dynamic Routing**: The app uses Next.js dynamic routing to handle multiple URL segments. For example, routes like `/docs/advanced/hello-world` are supported.
+- **MDX Rendering**: The app renders MDX content dynamically based on the URL, making it easy to manage content in markdown files with embedded JSX.
+- **Custom Layout**: The app uses a simple, customizable layout to display MDX content.
+- **Static Params Generation**: The app generates static parameters for each doc at build time, ensuring efficient static site generation.
 
-## How to use
+## Installation
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), [pnpm](https://pnpm.io), or [Bun](https://bun.sh/docs/cli/bunx) to bootstrap the example:
+1. Clone the repository:
 
-```bash
-npx create-next-app --example mdx-remote mdx-remote-app
-```
+   ```bash
+   git clone https://github.com/your-username/mdx-remote-app.git
+   cd mdx-remote-app
+p
+2. Install dependencies:
+    ```bash
+    npm install
 
-```bash
-yarn create next-app --example mdx-remote mdx-remote-app
-```
+3. Start the development server:
+    ```bash
+    npm run dev
 
-```bash
-pnpm create next-app --example mdx-remote mdx-remote-app
-```
+4. Open the app in your browser:
+    ```bash
+    http://localhost:3000
+    
 
-```bash
-bunx create-next-app --example mdx-remote mdx-remote-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/app/building-your-application/deploying)).
-
-## Notes
-
-### Conditional custom components
-
-When using `next-mdx-remote`, you can pass custom components to the MDX renderer. However, some pages/MDX files might use components that are used infrequently, or only on a single page. To avoid loading those components on every MDX page, you can use [`next/dynamic`](https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading#nextdynamic) to conditionally load them.
-
-```typescript
-import dynamic from "next/dynamic";
-import Test from "@/components/test";
-import { MDXRemote, type MDXRemoteProps } from 'next-mdx-remote/rsc'
-
-const SomeHeavyComponent = dynamic(() => import("../component/SomeHeavyComponent"));
-
-const defaultComponents = { Test };
-
-export function CustomMDX(props: MDXRemoteProps) {
-  const componentNames = [
-    /<SomeHeavyComponent/.test(props.source as string) ? "SomeHeavyComponent" : "",
-  ].filter(Boolean);
-
-  const components = {
-    ...defaultComponents,
-    SomeHeavyComponent: componentNames.includes("SomeHeavyComponent")
-      ? SomeHeavyComponent
-      : () => null,
-  };
-
-  return <MDXRemote {...props} components={components} />;
-}
-```
+## Usage
+- Place your MDX files inside the `app/content` folder.
+- You can organize them into directories for better structure.
+- Access your docs by visiting URLs like `/docs/advanced/hello-world` or `/docs/example`.
+- Each document has a title, description, and MDX content, which is rendered dynamically.
