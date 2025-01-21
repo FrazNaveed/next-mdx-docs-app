@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getPosts } from "@/lib/utils";
+import { getDocs } from "@/lib/utils";
 
 export default function Home() {
-  const posts = getPosts();
+  const docs = getDocs();
 
   return (
     <main>
@@ -12,9 +12,9 @@ export default function Home() {
         <code>next-mdx-remote</code>.
       </p>
       <ul>
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <Link href={`/${post.slug}`}>{post.metadata.title}</Link>
+        {docs.map((doc) => (
+          <li key={doc.slug}>
+            <Link href={`/docs/${doc.slug}`}>{doc.metadata.title}</Link>
           </li>
         ))}
       </ul>
