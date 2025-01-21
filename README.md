@@ -17,7 +17,7 @@ This is a simple **Next.js** application designed to render dynamic MDX content.
    ```bash
    git clone https://github.com/your-username/mdx-remote-app.git
    cd mdx-remote-app
-p
+
 2. Install dependencies:
     ```bash
     npm install
