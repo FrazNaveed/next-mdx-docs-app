@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { CustomMDX } from "@/components/mdx";
+import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc";
+// import { CustomMDX } from "@/components/mdx";
 import { getDocs } from "@/lib/utils";
 import styles from "./page.module.css";
 import Link from "next/link";
@@ -12,7 +13,7 @@ export function generateStaticParams() {
   }));
 }
 
-export default async function Blog({
+export default async function Doc({
   params,
 }: {
   params: Promise<{ slug: string[] }>;  // Expecting an array of segments
@@ -40,7 +41,7 @@ export default async function Blog({
           <p className={styles.description}>{doc.metadata.description}</p>
         )}
         <article>
-          <CustomMDX source={doc.content} />
+          <MDXRemote source={doc.content} />
         </article>
       </main>
     </>
