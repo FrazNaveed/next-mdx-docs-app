@@ -47,6 +47,34 @@ function getMDXData(dir: fs.PathLike) {
   });
 }
 
-export function getPosts() {
-  return getMDXData(path.join(process.cwd(), "app", "posts"));
+export function getDocs() {
+  const docsDirectory = path.join(process.cwd(), "app", "content");
+
+  // Call a helper function to read all files recursively
+  const allFiles = getAllFilesRecursively(docsDirectory);
+
+  // Filter MDX files and extract data
+  const docs = allFiles
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => {
+      const fileContent = fs.readFileSync(file, "utf-8");
+      const relativePath = path.relative(docsDirectory, file); // Get relative path for slug
+      const slug = relativePath.replace(/\\/g, "/").replace(/\.mdx$/, ""); // Normalize and remove extension
+      const { metadata, content } = parseFrontmatter(fileContent);
+
+      return { slug, metadata, content };
+    });
+
+  return docs;
+}
+
+// Helper function to read all files recursively
+function getAllFilesRecursively(dir: string): string[] {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = entries.map((entry) => {
+    const fullPath = path.join(dir, entry.name);
+    return entry.isDirectory() ? getAllFilesRecursively(fullPath) : fullPath;
+  });
+
+  return files.flat(); // Flatten the array of arrays
 }
